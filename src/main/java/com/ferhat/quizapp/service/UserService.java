@@ -4,6 +4,8 @@ import com.ferhat.quizapp.entity.Todo;
 import com.ferhat.quizapp.entity.TodoUser;
 import com.ferhat.quizapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -80,6 +82,13 @@ public class UserService {
     public List<Todo> getTodosByUserName(String userName) {
         List<Todo> todos = userRepository.findByUserName(userName).getTodoList();
         return todos;
+    }
+
+    public TodoUser updateById(Long id, TodoUser todoUser) {
+        TodoUser currentUser = userRepository.getById(id);
+        currentUser.setUserName(todoUser.getUserName());
+        currentUser.setPassword(todoUser.getPassword());
+        return userRepository.save(currentUser);
     }
 
 

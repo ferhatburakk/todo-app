@@ -45,11 +45,8 @@ public class TodoController {
     @PutMapping("update/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody Todo todo) {
         try {
-            Todo currentTodo = todoService.getById(id);
-            currentTodo.setContent(todo.getContent());
-            currentTodo.setHeader(todo.getHeader());
-            currentTodo.setIsCompleted(todo.getIsCompleted());
-            return ResponseEntity.status(HttpStatus.OK).body(todoService.save(currentTodo));
+            Todo currentTodo = todoService.updateById(id, todo);
+            return ResponseEntity.status(HttpStatus.OK).body(currentTodo);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {

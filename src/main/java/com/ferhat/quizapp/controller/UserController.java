@@ -44,9 +44,7 @@ public class UserController {
     public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody TodoUser todoUser) {
 
         try {
-            TodoUser currentUser = userService.getById(id);
-            currentUser.setUserName(todoUser.getUserName());
-            currentUser.setPassword(todoUser.getPassword());
+            TodoUser currentUser = userService.updateById(id, todoUser);
             return ResponseEntity.status(HttpStatus.OK).body(userService.save(currentUser));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

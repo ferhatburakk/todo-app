@@ -33,6 +33,7 @@ public class TodoService {
         return todoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Todo Not Found"));
     }
 
+    @Transactional
     public void deleteById(Long todoId, String userName) {
         TodoUser user = userService.getByUserName(userName);
         Todo todo = user.getTodoList().stream().filter(n -> n.getId() == todoId).findFirst().get();
@@ -52,5 +53,16 @@ public class TodoService {
             throw new Exception(e);
         }
         return todo;
+    }
+
+    public Todo updateById(Long id, Todo todo) {
+        Todo currentTodo = todoRepository.getById(id);
+        if (currentTodo == null) {
+            throw new NoSuchElementException("Todo not found.");
+        }
+        currentTodo.setContent(todo.getContent());
+        currentTodo.setHeader(todo.getHeader());
+        currentTodo.setIsCompleted(todo.getIsCompleted());
+        return todoRepository.save(currentTodo);
     }
 }
